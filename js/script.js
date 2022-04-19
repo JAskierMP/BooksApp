@@ -25,17 +25,24 @@ const initActions = function () {
     for (let okładka of listaOkładekTablica) {
         okładka.addEventListener('dblclick', function (event) {
             event.preventDefault();
-            //console.log(event.target);
-            okładka.classList.add('favorite'); 
             const clickedElement = okładka;
             console.log(clickedElement);
-
-            //let element = document.getElementById('myDivID');
             const dataID = clickedElement.getAttribute('data-id');
             console.log(dataID);
-            favoriteBooks.push(dataID);
-            console.log(favoriteBooks);
-        });
+           
+
+            if (!favoriteBooks.includes(dataID)){
+                favoriteBooks.push(dataID);
+                okładka.classList.add('favorite'); 
+                } else {
+                    okładka.classList.remove('favorite');  
+                    const index = favoriteBooks.indexOf(dataID);
+                    console.log('index of removed element', index);
+                    favoriteBooks.splice(index, 1);
+                   console.log(clickedElement);
+                }
+                console.log(favoriteBooks);
+        });    
     }
 }
 
