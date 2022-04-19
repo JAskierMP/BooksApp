@@ -5,11 +5,11 @@ console.log(listaKsiazek);
 const booksListElement = listaKsiazek.item(0);
 
 function render() {
-    for (let book of dataSource.books) {
-        const generatedHTML = bookTemplate(book);
-        const DOMElement = utils.createDOMFromHTML(generatedHTML);
-        booksListElement.appendChild(DOMElement);
-    }
+  for (let book of dataSource.books) {
+    const generatedHTML = bookTemplate(book);
+    const DOMElement = utils.createDOMFromHTML(generatedHTML);
+    booksListElement.appendChild(DOMElement);
+  }
 }
 
 render();
@@ -18,33 +18,41 @@ render();
 
 const favoriteBooks = [];
 const initActions = function () {
-    const listaOkładek = document.getElementsByClassName('book__image');
-    const listaOkładekTablica = Array.from(listaOkładek);
-    console.log(listaOkładekTablica);
+  // const listaOkładek = document.getElementsByClassName('book__image');
+  //const listaOkładekTablica = Array.from(listaOkładek);
+  //console.log(listaOkładekTablica);
 
-    for (let okładka of listaOkładekTablica) {
-        okładka.addEventListener('dblclick', function (event) {
-            event.preventDefault();
-            const clickedElement = okładka;
-            console.log(clickedElement);
-            const dataID = clickedElement.getAttribute('data-id');
-            console.log(dataID);
-           
+  const booksList = document.querySelector('.books-list');
+  console.log(booksList);
+  //for (let okładka of listaOkładekTablica) {
+  booksList.addEventListener('dblclick', function (event) {
+    console.log(booksList.addEventListener);
+    event.preventDefault();
+    //const clickedElement = okładka;
+    const clickedElement = event.target;
+    const clickedElementParent = clickedElement.offsetParent;
+    console.log(clickedElementParent);
 
-            if (!favoriteBooks.includes(dataID)){
-                favoriteBooks.push(dataID);
-                okładka.classList.add('favorite'); 
-                } else {
-                    okładka.classList.remove('favorite');  
-                    const index = favoriteBooks.indexOf(dataID);
-                    console.log('index of removed element', index);
-                    favoriteBooks.splice(index, 1);
-                   console.log(clickedElement);
-                }
-                console.log(favoriteBooks);
-        });    
+    if (clickedElementParent.classList.contains('.book__image')) {
+      console.log(clickedElement);
+      const dataID = clickedElement.getAttribute('data-id');
+      console.log(dataID);
+
+      if (!favoriteBooks.includes(dataID)) {
+        favoriteBooks.push(dataID);
+        clickedElementParent.classList.add('favorite');
+      } else {
+        clickedElementParent.remove('favorite');
+        const index = favoriteBooks.indexOf(dataID);
+        console.log('index of removed element', index);
+        favoriteBooks.splice(index, 1);
+        console.log(clickedElement);
+      }
+      console.log(favoriteBooks);
     }
-}
+  });
+  // }
+};
 
 
 initActions();
